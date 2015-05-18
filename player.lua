@@ -16,10 +16,13 @@ end
 function Player:update(dt)
     if love.keyboard.isDown('a') then
         self.acc.x = -1200
+        self.imgIndex = 2
     elseif love.keyboard.isDown('d') then
         self.acc.x = 1200
+        self.imgIndex = 3
     else 
         self.acc.x = 0
+        self.imgIndex = 1
     end
     
     self.vel = self.vel + self.acc * dt
@@ -44,15 +47,5 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    dotVelRight = self.vel:normalized() * vector(1, 0)
-    if  self.vel:len() > 150 and dotVelRight ~= 0 then 
-        if dotVelRight > 0 then --player moves right
-            self.imgIndex = 3
-        else --player moves left
-            self.imgIndex = 2
-        end
-    else
-        self.imgIndex = 1 
-    end
     love.graphics.draw(self.img[self.imgIndex], self.pos.x-self.img[self.imgIndex]:getWidth()/2 , self.pos.y-self.img[self.imgIndex]:getWidth()/2)
 end
