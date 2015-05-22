@@ -7,8 +7,8 @@ function love.load()
     require 'player'
     require 'bullet'
     require 'cannon'
-
-    time = 0
+    require 'meteor'
+    require 'meteorSpawner'
 
     game_load()
 end

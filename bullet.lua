@@ -15,5 +15,5 @@ function Bullet:update(dt)
 end 
 
 function Bullet:draw()
-	love.graphics.draw(self.img, self.pos.x-self.img:getWidth()/2 , self.pos.y-self.img:getWidth()/2)
+	love.graphics.draw(self.img, self.pos.x, self.pos.y, 0, 1, 1, self.img:getWidth()/2, self.img:getHeight()/2)
 end

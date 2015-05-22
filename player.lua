@@ -12,7 +12,7 @@ function Player:init(pos)
     self.minVel = 0.5
     self.friction = 0.9
     self.speed = 1200
-    self.cannon = Cannon(vector(0, -1):normalized(), self, 0, -80)
+    self.cannons = { Cannon(vector(0, -1):normalized(), self, 0, -60) }
 end
 
 function Player:update(dt)
@@ -50,12 +50,16 @@ function Player:update(dt)
     end
 
     if love.keyboard.isDown('w') then
-        self.cannon:shoot()
+        for i, cannon in ipairs(self.cannons) do 
+            cannon:shoot()
+        end
     end
 
-    self.cannon:update(dt)
+    for i, cannon in ipairs(self.cannons) do 
+        cannon:update(dt)
+    end
 end
 
 function Player:draw()
-    love.graphics.draw(self.img[self.imgIndex], self.pos.x-self.img[self.imgIndex]:getWidth()/2 , self.pos.y-self.img[self.imgIndex]:getWidth()/2)
+    love.graphics.draw(self.img[self.imgIndex], self.pos.x, self.pos.y, 0, 1, 1, self.img[self.imgIndex]:getWidth()/2, self.img[self.imgIndex]:getHeight()/2)
 end
