@@ -21,8 +21,9 @@ function Meteor:update(dt)
 
 	self.rot = self.rot + self.rotSpeed *dt
 
-	if self.live <= 0 then 
+	if self.live <= 0 and self.destroy == false then 
 		self.destroy = true
+		self:createParticle()
 	end
 end
 
@@ -33,5 +34,19 @@ end
 function Meteor:hit(obj)
 	if obj.type == 'bullet' then
 		self.live = self.live -1
-	end
+	else 
+		self.live = 0
+	end 
+end
+
+function Meteor:createParticle()
+	local particle = Particle(love.graphics.newParticleSystem(love.graphics.newImage('graphics/meteorSmall.png'), 10), self.pos, 1)
+	particle.system:setParticleLifetime(1, 1)
+	particle.system:setEmissionRate(100)
+	particle.system:setEmitterLifetime(0.1)
+	particle.system:setSpeed(450, 650)
+	particle.system:setLinearAcceleration(0, 0, 0, 0)
+	particle.system:setSpread(2 * math.pi)
+	particle.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+	table.insert(particles, particle)
 end

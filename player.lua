@@ -14,7 +14,9 @@ function Player:init(pos)
     self.friction = 0.9
     self.speed = 1200
     self.cannons = { Cannon(vector(0, -1):normalized(), self, 0, -60) }
+    self.c = CircleCollider(30, self, 0, 0)
     self.destroy = false
+    self:createEngineParticle()
 end
 
 function Player:update(dt)
@@ -64,4 +66,26 @@ end
 
 function Player:draw()
     love.graphics.draw(self.img[self.imgIndex], self.pos.x, self.pos.y, 0, 1, 1, self.img[self.imgIndex]:getWidth()/2, self.img[self.imgIndex]:getHeight()/2)
+end
+
+function Player:hit(obj)
+    self.destroy = true
+    self.particle.destroy = true
+    self:createExpParticle()
+end
+
+function Player:createEngineParticle()
+    self.particle = Particle(love.graphics.newParticleSystem(love.graphics.newImage('graphics/fire.png'), 200), self.pos, -1, self)
+    self.particle.system:setParticleLifetime(0.5, 0.3)
+    self.particle.system:setEmissionRate(100)
+    self.particle.system:setSpeed(250)
+    self.particle.system:setLinearAcceleration(0, 0, 0, 0)
+    self.particle.system:setDirection(math.pi /2)
+    self.particle.system:setSizes(0.4, 0.05)
+    self.particle.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+    table.insert(particles, self.particle)
+end
+
+function Player:createExpParticle()
+    --do it
 end

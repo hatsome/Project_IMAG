@@ -11,6 +11,7 @@ function love.load()
     require 'meteorSpawner'
     require 'collision'
     require 'circleCollider'
+    require 'particle'
 
     game_load()
 end

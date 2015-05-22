@@ -2,6 +2,7 @@ function game_load()
     offY = 200
     bullets = {}
     meteors = {}
+    particles = {}
 
     collision_load()
     player = Player(vector(love.window.getWidth()/2, 950))
@@ -17,7 +18,13 @@ function game_update(dt)
         end
     end
 
-    player:update(dt)
+    if player then 
+        player:update(dt)
+
+        if player.destroy then
+            player = nil 
+        end
+    end 
 
     meteorSpawner:update(dt)
 
@@ -30,14 +37,28 @@ function game_update(dt)
     end
 
     collision_update(dt)
+
+    for i, particle in pairs(particles) do
+        particle:update(dt)
+
+        if particle.destroy or particle.pos.y < -offY or particle.pos.y > love.window.getHeight() + offY then 
+            particles[i] = nil
+        end
+    end
 end
 
 function game_draw()
+    for i, particle in pairs(particles) do
+        particle:draw()
+    end
+
     for i, bullet in pairs(bullets) do 
         bullet:draw()
     end 
 
-    player:draw()
+    if player then 
+        player:draw()
+    end
 
     for i, meteor in pairs(meteors) do 
         meteor:draw()
