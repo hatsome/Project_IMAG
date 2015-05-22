@@ -9,6 +9,8 @@ function love.load()
     require 'cannon'
     require 'meteor'
     require 'meteorSpawner'
+    require 'collision'
+    require 'circleCollider'
 
     game_load()
 end

@@ -1,6 +1,7 @@
 Player = Class{}
 
 function Player:init(pos)
+    self.type = 'player'
     self.img = {  love.graphics.newImage('graphics/player.png'), 
                   love.graphics.newImage('graphics/playerLeft.png'), 
                   love.graphics.newImage('graphics/playerRight.png')}
@@ -13,6 +14,7 @@ function Player:init(pos)
     self.friction = 0.9
     self.speed = 1200
     self.cannons = { Cannon(vector(0, -1):normalized(), self, 0, -60) }
+    self.destroy = false
 end
 
 function Player:update(dt)
