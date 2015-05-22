@@ -40,8 +40,10 @@ function Player:update(dt)
     self.pos = self.pos + self.vel * dt
 
     if self.pos.x <= self.img[self.imgIndex]:getWidth()/2 then
+        self.vel = self.vel:normalized() * 0
         self.pos.x = self.img[self.imgIndex]:getWidth()/2
     elseif self.pos.x >= love.graphics.getWidth() - self.img[self.imgIndex]:getWidth()/2 then 
+        self.vel = self.vel:normalized() * 0
         self.pos.x = love.graphics.getWidth() - self.img[self.imgIndex]:getWidth()/2
     end
 end
