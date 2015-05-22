@@ -1,10 +1,12 @@
-io.stdout:setvbuf("no")
+io.stdout:setvbuf('no')
 
 function love.load()
-    Class = require "class"
-    vector = require "vector"
-    require "game"
-    require "player"
+    Class = require 'class'
+    vector = require 'vector'
+    require 'game'
+    require 'player'
+    require 'bullet'
+    require 'cannon'
 
     time = 0
 

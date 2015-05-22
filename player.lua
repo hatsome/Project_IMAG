@@ -1,24 +1,26 @@
 Player = Class{}
 
-function Player:init(x, y)
-    self.img = {  love.graphics.newImage("graphics/player.png"), 
-                  love.graphics.newImage("graphics/playerLeft.png"), 
-                  love.graphics.newImage("graphics/playerRight.png")}
+function Player:init(pos)
+    self.img = {  love.graphics.newImage('graphics/player.png'), 
+                  love.graphics.newImage('graphics/playerLeft.png'), 
+                  love.graphics.newImage('graphics/playerRight.png')}
     self.imgIndex = 1
-    self.pos = vector(x, y)
+    self.pos = pos
     self.vel = vector(0, 0)
     self.acc = vector(0, 0)
     self.maxVel = 400
     self.minVel = 0.5
     self.friction = 0.9
+    self.speed = 1200
+    self.cannon = Cannon(vector(0, -1):normalized(), self, 0, -80)
 end
 
 function Player:update(dt)
     if love.keyboard.isDown('a') then
-        self.acc.x = -1200
+        self.acc.x = -self.speed 
         self.imgIndex = 2
     elseif love.keyboard.isDown('d') then
-        self.acc.x = 1200
+        self.acc.x = self.speed
         self.imgIndex = 3
     else 
         self.acc.x = 0
@@ -46,6 +48,12 @@ function Player:update(dt)
         self.vel = self.vel:normalized() * 0
         self.pos.x = love.graphics.getWidth() - self.img[self.imgIndex]:getWidth()/2
     end
+
+    if love.keyboard.isDown('w') then
+        self.cannon:shoot()
+    end
+
+    self.cannon:update(dt)
 end
 
 function Player:draw()
