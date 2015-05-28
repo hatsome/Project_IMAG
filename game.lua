@@ -8,6 +8,7 @@ function game_load()
     meteors = {}
     particles = {}
     gameOver = false
+    username = '' 
 
     camPos = vector(love.window.getWidth()/2, love.window.getHeight()/2)
     cam = camera(camPos.x, camPos.y)
@@ -74,14 +75,13 @@ function game_update(dt)
         cam:lookAt(pos.x, pos.y)
     end 
 
-    if gameOver then
+    if gameOver and love.keyboard.isDown(' ')then
         if not scoreTable[username] or scoreTable[username] < timePoints+points then 
             scoreTable[username] = timePoints+points
         end
 
-        if love.keyboard.isDown('r') then 
-            game_load()
-        end
+        state = 'menu'
+        menu_load()
     end
 end
 
@@ -95,14 +95,24 @@ function game_drawHUD()
     love.graphics.setColor(238, 210, 2, 255)
     love.graphics.setFont(smallFont)
 
-    love.graphics.printf(timePoints + points, love.window.getWidth(), 0, 0,'right', 0, 1, 1, 15, -10)
+    local score = timePoints + points
+    love.graphics.printf(score, love.window.getWidth(), 0, 0,'right', 0, 1, 1, 15, -10)
 
     if gameOver then
         love.graphics.setFont(bigFont)
         love.graphics.printf('Game Over', 0, love.window.getHeight()/2, love.window.getWidth(),'center')
+        love.graphics.setFont(averageFont)
+        love.graphics.printf(username, 0, love.window.getHeight()/2+50, love.window.getWidth(),'center')
+        love.graphics.printf('Score  '..score, 0, love.window.getHeight()/2+100, love.window.getWidth(),'center')
     end
 
     love.graphics.setColor(r, g, b, a)
+end
+
+function game_keypressed(key, unicode)
+    if gameOver and #key == 1 and string.find(key, '[a-z]') then
+        username = username..key
+    end
 end
 
 function game_drawWorld()
