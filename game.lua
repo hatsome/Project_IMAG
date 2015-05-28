@@ -1,9 +1,13 @@
 function game_load()
+    points = 0
+    timePoints = 0
+    time = 0
     offY = 200
     enemies = {}
     bullets = {}
     meteors = {}
     particles = {}
+    gameOver = false
 
     camPos = vector(love.window.getWidth()/2, love.window.getHeight()/2)
     cam = camera(camPos.x, camPos.y)
@@ -19,7 +23,7 @@ function game_update(dt)
     for i, bullet in pairs(bullets) do 
         bullet:update(dt)
 
-        if bullet.destroy or bullet.pos.y < -offY or bullet.pos.y > love.window.getHeight() + offY then 
+        if bullet.destroy or bullet.pos.y < -offY or bullet.pos.y > love.window.getHeight() + offY then
             bullets[i] = nil
         end
     end
@@ -30,6 +34,9 @@ function game_update(dt)
         if player.destroy then
             player = nil 
         end
+
+        time = time + (1 *dt)
+        timePoints = math.floor(time)*10
     end 
 
     meteorSpawner:update(dt)
@@ -66,10 +73,36 @@ function game_update(dt)
     if pos then 
         cam:lookAt(pos.x, pos.y)
     end 
+
+    if gameOver then
+        if not scoreTable[username] or scoreTable[username] < timePoints+points then 
+            scoreTable[username] = timePoints+points
+        end
+
+        if love.keyboard.isDown('r') then 
+            game_load()
+        end
+    end
 end
 
 function game_draw()
     cam:draw(game_drawWorld)
+    game_drawHUD()
+end
+
+function game_drawHUD()
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(238, 210, 2, 255)
+    love.graphics.setFont(smallFont)
+
+    love.graphics.printf(timePoints + points, love.window.getWidth(), 0, 0,'right', 0, 1, 1, 15, -10)
+
+    if gameOver then
+        love.graphics.setFont(bigFont)
+        love.graphics.printf('Game Over', 0, love.window.getHeight()/2, love.window.getWidth(),'center')
+    end
+
+    love.graphics.setColor(r, g, b, a)
 end
 
 function game_drawWorld()

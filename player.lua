@@ -69,6 +69,7 @@ function Player:draw()
 end
 
 function Player:hit(obj)
+    gameOver = true
     self.destroy = true
     self.particle.destroy = true
     self:createExpParticle()

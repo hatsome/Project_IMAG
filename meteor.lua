@@ -12,6 +12,7 @@ function Meteor:init(pos, dir)
 	self.c = CircleCollider(50, self, 0, 0)
 	self.live = 10
 	self.destroy = false
+	self.points = 5
 end
 
 function Meteor:update(dt)
@@ -25,6 +26,7 @@ function Meteor:update(dt)
 		self.destroy = true
 		self:createParticle()
 		game_shakeCam(30, 30, 10)
+        points = points + self.points
 	end
 end
 

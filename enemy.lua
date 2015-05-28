@@ -14,6 +14,7 @@ function Enemy:init(pos, dir)
     self.c = CircleCollider(40, self, 0, 0)
     self.destroy = false
     self.ampl = love.math.random() * 200 + 1
+    self.points = 10
 end
 
 function Enemy:update(dt)
@@ -27,6 +28,7 @@ function Enemy:update(dt)
         self.destroy = true
         self:createExpParticle()
         game_shakeCam(30, 30, 10)
+        points = points + self.points
     end
 
     if player then 

@@ -16,6 +16,11 @@ function love.load()
     require 'circleCollider'
     require 'particle'
 
+    smallFont = love.graphics.newFont('fonts/ArcadeClassic.ttf', 20)
+    bigFont = love.graphics.newFont('fonts/ArcadeClassic.ttf', 60)
+
+    username = 'bob'
+    scoreTable = {}
     game_load()
 end
 
