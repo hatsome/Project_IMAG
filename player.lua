@@ -13,7 +13,7 @@ function Player:init(pos)
     self.minVel = 0.5
     self.friction = 0.9
     self.speed = 1200
-    self.cannons = { Cannon(vector(0, -1):normalized(), self, 0, -60) }
+    self.cannons = { Cannon(vector(0, -1):normalized(), 0.1, self, 0, -60, love.graphics.newImage('graphics/bullet.png'), 'bullet', 1)}
     self.c = CircleCollider(30, self, 0, 0)
     self.destroy = false
     self:createEngineParticle()
@@ -72,6 +72,7 @@ function Player:hit(obj)
     self.destroy = true
     self.particle.destroy = true
     self:createExpParticle()
+    game_shakeCam(60, 60, 20)
 end
 
 function Player:createEngineParticle()
@@ -87,5 +88,23 @@ function Player:createEngineParticle()
 end
 
 function Player:createExpParticle()
-    --do it
+    local particle = Particle(love.graphics.newParticleSystem(love.graphics.newImage('graphics/smoke.png'), 5), self.pos, 1, self)
+    particle.system:setParticleLifetime(0.9, 0.9)
+    particle.system:setEmissionRate(100)
+    particle.system:setEmitterLifetime(0.1)
+    particle.system:setSizes(0.5, 0.7)
+    particle.system:setSpeed(10, 15)
+    particle.system:setSpread(2 * math.pi)
+    particle.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+    table.insert(particles, particle)
+
+    particle = Particle(love.graphics.newParticleSystem(love.graphics.newImage('graphics/explosion.png'), 5), self.pos, 1, self)
+    particle.system:setParticleLifetime(1, 1)
+    particle.system:setEmissionRate(100)
+    particle.system:setEmitterLifetime(0.1)
+    particle.system:setSizes(0.3, 0.5)
+    particle.system:setSpeed(5, 10)
+    particle.system:setSpread(2 * math.pi)
+    particle.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+    table.insert(particles, particle)
 end

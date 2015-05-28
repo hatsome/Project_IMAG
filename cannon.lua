@@ -1,14 +1,17 @@
 Cannon = Class{}
 
-function Cannon:init(dir, parent, offX, offY)
+function Cannon:init(dir, maxTime, parent, offX, offY, bulImg, bulType, bulScale)
 	self.pos = parent.pos
 	self.dir = dir
 	self.parent = parent
 	self.offX = offX
 	self.offY = offY
-	self.maxTime = 0.1
+	self.maxTime = maxTime
 	self.timer = self.maxTime
 	self.canShoot = false
+	self.bulImg = bulImg
+	self.bulType = bulType
+	self.bulScale = bulScale
 end
 
 function Cannon:update(dt)
@@ -22,7 +25,7 @@ end
 
 function Cannon:shoot()
 	if self.canShoot then
-		table.insert(bullets, Bullet(self.pos, self.dir))
+		table.insert(bullets, Bullet(self.bulType, self.pos, self.dir, self.bulImg, self.bulScale))
 		self.canShoot = false
 		self.timer = self.maxTime
 	end

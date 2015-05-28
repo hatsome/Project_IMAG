@@ -10,7 +10,7 @@ function Meteor:init(pos, dir)
 	self.rot = 0
 	self.rotSpeed = 1
 	self.c = CircleCollider(50, self, 0, 0)
-	self.live = 3
+	self.live = 10
 	self.destroy = false
 end
 
@@ -24,6 +24,7 @@ function Meteor:update(dt)
 	if self.live <= 0 and self.destroy == false then 
 		self.destroy = true
 		self:createParticle()
+		game_shakeCam(30, 30, 10)
 	end
 end
 
@@ -34,7 +35,8 @@ end
 function Meteor:hit(obj)
 	if obj.type == 'bullet' then
 		self.live = self.live -1
-	else 
+        game_shakeCam(5, 5, 5)
+	elseif obj.type == 'player' then 
 		self.live = 0
 	end 
 end
