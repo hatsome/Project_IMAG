@@ -45,7 +45,7 @@ function menu_draw()
     love.graphics.setFont(smallFont)
 
     local offset = 400
-    for name, score in pairs(scoreTable) do 
+    for name, score in spairs(scoreTable, function(t, a, b) return t[b] < t[a] end) do 
     	love.graphics.printf(name, 0, love.window.getHeight()/4 +offset, love.window.getWidth()/4*1.9,'right')
     	love.graphics.printf(score, 0, love.window.getHeight()/4 +offset, love.window.getWidth()/4*2.2,'right')
     	offset = offset + 20

@@ -76,6 +76,10 @@ function game_update(dt)
     end 
 
     if gameOver and love.keyboard.isDown(' ')then
+        if username == '' then 
+            username = 'bob'
+        end
+
         if not scoreTable[username] or scoreTable[username] < timePoints+points then 
             scoreTable[username] = timePoints+points
         end
@@ -112,6 +116,8 @@ end
 function game_keypressed(key, unicode)
     if gameOver and #key == 1 and string.find(key, '[a-z]') then
         username = username..key
+    elseif gameOver and key == 'backspace' then
+        username = string.sub(username, 1, #username-1)
     end
 end
 
